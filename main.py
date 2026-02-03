@@ -83,6 +83,7 @@ class AimTrainer(ctk.CTk):
                 fill="#ff4655", outline="white", width=2, tags="target"
             )
 
+    #Only problem is whenever mag click siya sa canvas, iconsider niya as a hit
     def check_hit(self, event):
         if not self.game_running:
             return
