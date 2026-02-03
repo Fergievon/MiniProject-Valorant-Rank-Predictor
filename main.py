@@ -26,10 +26,10 @@ class AimTrainer(ctk.CTk):
         self.main_canvas.create_image(0, 0, image=self.bg_img, anchor="nw")
 
 
-        self.score_id = self.main_canvas.create_text(900, 23, text="0", fill="white", font=("Arial", 20, "bold"))
-        self.accuracy_id = self.main_canvas.create_text(1150, 23, text="0%", fill="white", font=("Arial", 20, "bold"))
-        self.timer_id = self.main_canvas.create_text(1060, 91, text="30s", fill="white", font=("Arial", 22, "bold"))
-        self.rank_id = self.main_canvas.create_text(780, 790, text="---", fill="#00FFFF", font=("Arial", 20, "bold"))
+        self.score_id = self.main_canvas.create_text(900, 23, text="0", fill="white", font=("Lexend", 20, "bold"))
+        self.accuracy_id = self.main_canvas.create_text(1150, 23, text="0%", fill="white", font=("Lexend", 20, "bold"))
+        self.timer_id = self.main_canvas.create_text(1060, 91, text="30s", fill="white", font=("Lexend", 22, "bold"))
+        self.rank_id = self.main_canvas.create_text(780, 790, text="---", fill="#00FFFF", font=("Lexend", 20, "bold"))
 
         self.aim_canvas = tk.Canvas(self, width=910, height=535, bg="#0b1115", highlightthickness=0, bd=0)
         self.main_canvas.create_window(185, 165, anchor="nw", window=self.aim_canvas)
@@ -38,6 +38,7 @@ class AimTrainer(ctk.CTk):
         self.start_button = ctk.CTkButton(
             self, 
             text="START", 
+            font=("Lexend", 20, "bold"),
             command=self.start_game,
             fg_color="#1199AF", 
             hover_color="#086A79", 
