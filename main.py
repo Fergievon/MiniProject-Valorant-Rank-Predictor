@@ -21,7 +21,7 @@ class AimTrainer(ctk.CTk):
 
         self.main_canvas = tk.Canvas(self, width=1298, height=858, highlightthickness=0)
         self.main_canvas.pack(fill="both", expand=True)
-        self.bg_image_raw = Image.open("ML-Project-BG.png").resize((1298, 858))
+        self.bg_image_raw = Image.open("VALOBG.png").resize((1298, 858))
         self.bg_img = ImageTk.PhotoImage(self.bg_image_raw)
         self.main_canvas.create_image(0, 0, image=self.bg_img, anchor="nw")
 
@@ -35,33 +35,51 @@ class AimTrainer(ctk.CTk):
         self.main_canvas.create_window(185, 165, anchor="nw", window=self.aim_canvas)
         self.aim_canvas.bind("<Button-1>", self.check_hit)
 
+        #changes sa start button
         self.start_button = ctk.CTkButton(
             self, 
-            text="START", 
-            font=("Lexend", 20, "bold"),
-            command=self.start_game,
+            text="START TEST", 
+            font=("Lexend", 30, "bold"), 
+            command=self.start_countdown, 
             fg_color="#1199AF", 
             hover_color="#086A79", 
-            width=147, 
-            height=40
+            width=300, 
+            height=80,
+            corner_radius=15
         )
-        self.main_canvas.create_window(167, 780, anchor="nw", window=self.start_button)
+        self.start_button.place(relx=0.5, rely=0.5, anchor="center")
 
+        #countdown
+        self.countdown_text = self.aim_canvas.create_text(
+            455, 267, text="", fill="#00FFFF", 
+            font=("Lexend", 80, "bold"), state="hidden"
+        )
 
-    def start_game(self):
-        # Reset Game State
+    #start coundown dito
+    def start_countdown(self, count=3):
+        self.start_button.place_forget()
+        
+        self.aim_canvas.itemconfig(self.countdown_text, state="normal")
+        
+        if count > 0:
+            self.aim_canvas.itemconfig(self.countdown_text, text=str(count))
+            self.after(1000, lambda: self.start_countdown(count - 1))
+        else:
+            self.aim_canvas.itemconfig(self.countdown_text, state="hidden")
+            self.start_game_logic()
+
+    #bagong start game logic
+    def start_game_logic(self):
         self.time_left = 30
         self.score = 0
         self.total_clicks = 0
         self.game_running = True
         
-        # Reset text if mag start
         self.main_canvas.itemconfig(self.score_id, text="0")
         self.main_canvas.itemconfig(self.accuracy_id, text="0%")
         self.main_canvas.itemconfig(self.rank_id, text="CALCULATING...")
         self.main_canvas.itemconfig(self.timer_id, text="30s")
         
-        self.start_button.configure(state="disabled")
         self.spawn_circle()
         self.update_timer()
 
@@ -125,6 +143,7 @@ class AimTrainer(ctk.CTk):
         
         self.main_canvas.itemconfig(self.rank_id, text=rank)
         print(f"Test Finished. Score: {self.score}, Accuracy: {int((self.score/self.total_clicks)*100)}%")
+        self.start_button.place(relx=0.5, rely=0.5, anchor="center") #magbalik ang button again
 
 if __name__ == "__main__":
     app = AimTrainer()
