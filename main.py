@@ -88,17 +88,24 @@ class AimTrainer(ctk.CTk):
     def check_hit(self, event):
         if not self.game_running:
             return
-
         self.total_clicks += 1
-        clicked_item = self.aim_canvas.find_closest(event.x, event.y)
+        items = self.aim_canvas.find_overlapping(event.x, event.y, event.x, event.y)
         
-        if "target" in self.aim_canvas.gettags(clicked_item):
-            self.score += 1
-            # Update Score 
-            self.main_canvas.itemconfig(self.score_id, text=str(self.score))
-            self.spawn_circle()
-        
-        # Update Accuracy
+        hit_detected = False
+    
+        for item in items:
+            if "target" in self.aim_canvas.gettags(item):
+                self.score += 1
+                self.main_canvas.itemconfig(self.score_id, text=str(self.score))
+                self.spawn_circle()
+                hit_detected = True
+                break
+            
+        if not hit_detected:
+            # ADD RED LED NA LOGIC HERE + YUNG ACTIVE BUZZER
+            print("Missed!") 
+
+        # ACCURACY LOGIC  score/ total clicks
         accuracy = (self.score / self.total_clicks) * 100
         self.main_canvas.itemconfig(self.accuracy_id, text=f"{int(accuracy)}%")
 
